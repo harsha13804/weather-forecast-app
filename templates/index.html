@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weatherly - Dark Weather Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- TOP NAVIGATION -->
+    <header class="topbar">
+
+        <div class="logo">
+            <i class="fa-solid fa-cloud-sun"></i>
+            <span>weatherly</span>
+        </div>
+
+        <div class="nav-actions">
+            <button class="nav-circle"><i class="fa-solid fa-grip"></i></button>
+            <button class="nav-circle"><i class="fa-solid fa-bell"></i></button>
+        </div>
+
+        
+        <form method="POST" class="search-form" autocomplete="off">
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <div class="autocomplete">
+                <input
+                    type="text"
+                    name="city"
+                    class="city-input"
+                    placeholder="Search city..."
+                    autocomplete="off"
+                    required
+                >
+
+                <div class="suggestions"></div>
+            </div>
+
+            <button type="submit">Search</button>
+        </form>
+
+
+        <div class="profile">
+            <button id="themeToggle" class="nav-circle"
+                    aria-label="Toggle theme">
+                <i class="fa-solid fa-sun"></i>
+            </button>
+            <div class="avatar"><i class="fa-solid fa-user"></i></div>
+        </div>
+
+    </header>
+
+
+    {% if error %}
+    <div class="error-message">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        {{ error }}
+    </div>
+    {% endif %}
+
+
+    {% if weather %}
+
+    <div class="content-grid">
+
+        <!-- MAIN COLUMN -->
+        <main class="main-column">
+
+            <div class="tabs">
+                <span>Today</span>
+                <span>Tomorrow</span>
+                <strong>Next 5 days</strong>
+            </div>
+
+            <!-- FORECAST CARDS -->
+            <section class="forecast-grid">
+
+                <div class="today-card">
+                    <div class="today-top">
+                        <strong>Today</strong>
+                        <span>Live weather</span>
+                    </div>
+
+                    <div class="today-weather">
+                        <div>
+                            <h1>{{ weather.temperature }}°</h1>
+                            <p>{{ weather.description }}</p>
+                            <small>{{ weather.city }}, {{ weather.country }}</small>
+                        </div>
+
+                        <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@4x.png"
+                             alt="Current weather">
+                    </div>
+
+                    <div class="today-details">
+                        <span>Feels like {{ weather.feels_like }}°C</span>
+                        <span>Humidity {{ weather.humidity }}%</span>
+                        <span>Wind {{ weather.wind }} m/s</span>
+                    </div>
+                </div>
+
+                {% for day in forecast %}
+                <div class="day-card">
+                    <strong>{{ day.date }}</strong>
+
+                    <img src="https://openweathermap.org/img/wn/{{ day.icon }}@2x.png"
+                         alt="{{ day.description }}">
+
+                    <h2>{{ day.temp }}°</h2>
+
+                    <span>{{ day.description }}</span>
+                </div>
+                {% endfor %}
+
+            </section>
+
+
+            <!-- GLOBAL MAP -->
+            <section class="map-section">
+
+                <div class="section-header">
+                    <h2>Global weather</h2>
+                    <span class="map-label">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        Weather overview
+                    </span>
+                </div>
+
+                <div class="map-card">
+
+                    <div class="map-message">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <h3>Explore the world</h3>
+                        <p>
+                            View weather conditions around the globe.
+                            Search different cities to discover their weather.
+                        </p>
+                        <a href="https://openweathermap.org/weathermap"
+                           target="_blank" rel="noopener">
+                            Explore weather map
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+
+                    <div class="map-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        {{ weather.city }}
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- RIGHT COLUMN -->
+        <aside class="right-column">
+
+            <section class="rain-section">
+
+                <div class="section-header">
+                    <h3>Weather details</h3>
+                    <span class="live-dot">Live</span>
+                </div>
+
+                <div class="rain-card">
+                    <div class="metric">
+                        <i class="fa-solid fa-droplet"></i>
+                        <span>Humidity</span>
+                        <strong>{{ weather.humidity }}%</strong>
+                    </div>
+
+                    <div class="metric">
+                        <i class="fa-solid fa-wind"></i>
+                        <span>Wind speed</span>
+                        <strong>{{ weather.wind }} m/s</strong>
+                    </div>
+
+                    <div class="metric">
+                        <i class="fa-solid fa-temperature-half"></i>
+                        <span>Feels like</span>
+                        <strong>{{ weather.feels_like }}°C</strong>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <section class="cities-section">
+
+                <div class="section-header">
+                    <h3>Forecast summary</h3>
+                </div>
+
+                {% for day in forecast %}
+                <div class="city-card">
+                    <div class="city-info">
+                        <span>{{ day.date }}</span>
+                        <h3>{{ day.description }}</h3>
+                    </div>
+
+                    <img src="https://openweathermap.org/img/wn/{{ day.icon }}.png"
+                         alt="Weather icon">
+
+                    <strong>{{ day.temp }}°</strong>
+                </div>
+                {% endfor %}
+
+            </section>
+
+
+            <div class="tip-card">
+                <i class="fa-solid fa-lightbulb"></i>
+                <h3>Weather tip</h3>
+                <p>
+                    Stay updated with weather conditions before
+                    planning your outdoor activities.
+                </p>
+            </div>
+
+        </aside>
+
+    </div>
+
+    {% else %}
+
+    <div class="welcome-screen">
+        <div class="welcome-icon">
+            <i class="fa-solid fa-cloud-sun"></i>
+        </div>
+
+        <h1>Discover the weather.</h1>
+        <p>Search for your city to see live weather and forecasts.</p>
+
+        
+        <form method="POST" class="welcome-search" autocomplete="off">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <div class="autocomplete">
+                <input
+                    type="text"
+                    name="city"
+                    class="city-input"
+                    placeholder="Enter city name..."
+                    autocomplete="off"
+                    required
+                >
+
+                <div class="suggestions"></div>
+            </div>
+
+            <button type="submit">Explore</button>
+
+        </form>
+
+    </div>
+
+    {% endif %}
+
+    <footer>
+        WEATHERLY <span>•</span> POWERED BY PYTHON & FLASK
+    </footer>
+
+</div>
+
+<script>
+    const toggle = document.getElementById("themeToggle");
+
+    toggle.addEventListener("click", () => {
+        document.body.classList.toggle("light-mode");
+
+        const icon = toggle.querySelector("i");
+
+        icon.classList.toggle("fa-sun");
+        icon.classList.toggle("fa-moon");
+    });
+
+    
+document.querySelectorAll(".city-input").forEach(input => {
+
+    const container = input.closest(".autocomplete");
+    const suggestionsBox = container.querySelector(".suggestions");
+
+    let timer;
+    let controller;
+
+    input.addEventListener("input", () => {
+
+        clearTimeout(timer);
+
+        if (controller) {
+            controller.abort();
+        }
+
+        const query = input.value.trim();
+
+        suggestionsBox.innerHTML = "";
+
+        if (query.length < 2) {
+            suggestionsBox.style.display = "none";
+            return;
+        }
+
+        timer = setTimeout(async () => {
+
+            controller = new AbortController();
+
+            try {
+
+                const response = await fetch(
+                    `/city-suggestions?q=${encodeURIComponent(query)}`,
+                    { signal: controller.signal }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Suggestion request failed");
+                }
+
+                const cities = await response.json();
+
+                suggestionsBox.innerHTML = "";
+
+                if (cities.length === 0) {
+                    suggestionsBox.style.display = "none";
+                    return;
+                }
+
+                cities.forEach(city => {
+
+                    const item = document.createElement("div");
+
+                    item.className = "suggestion-item";
+
+                    const location = [
+                        city.state,
+                        city.country
+                    ].filter(Boolean).join(", ");
+
+                    const displayName = [
+                        city.name,
+                        location
+                    ].filter(Boolean).join(", ");
+
+                    item.innerHTML = `
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span class="suggestion-text"></span>
+                        <i class="fa-solid fa-arrow-up-left-from-circle select-icon"></i>
+                    `;
+
+                    item.querySelector(".suggestion-text").textContent =
+                        displayName;
+
+                    item.addEventListener("mousedown", event => {
+                        event.preventDefault();
+
+                        // Use country code to distinguish cities
+                        input.value = `${city.name},${city.country}`;
+
+                        suggestionsBox.style.display = "none";
+                    });
+
+                    suggestionsBox.appendChild(item);
+                });
+
+                suggestionsBox.style.display = "block";
+
+            } catch (error) {
+
+                if (error.name !== "AbortError") {
+                    console.error("City suggestions error:", error);
+                }
+
+            }
+
+        }, 300);
+
+    });
+
+    input.addEventListener("blur", () => {
+        setTimeout(() => {
+            suggestionsBox.style.display = "none";
+        }, 150);
+    });
+
+    input.addEventListener("focus", () => {
+        if (suggestionsBox.children.length > 0) {
+            suggestionsBox.style.display = "block";
+        }
+    });
+
+});
+
+</script>
+
+</body>
+</html>
