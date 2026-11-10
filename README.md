@@ -21,17 +21,27 @@ JavaScript
 REST API
 JSON
 OpenWeather API
+
 📁 Project Structure
-text
+
 weather-forecast-app/
+
 ├── app.py
+
 ├── requirements.txt
+
 ├── .env
+
 ├── .gitignore
+
 ├── templates/
+
 │   └── index.html
+
 └── static/
+
     └── style.css
+
 
 ⚙️ Installation
 Clone the repository:
