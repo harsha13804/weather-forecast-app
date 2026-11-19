@@ -1,5 +1,5 @@
 🌤 Weather Forecast Application
-
+```
 A modern, responsive weather forecasting web application built using Python and Flask. It provides real-time weather information, city autocomplete suggestions, and a five-day weather forecast through the OpenWeather API.
 
 🚀 Features
