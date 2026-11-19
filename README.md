@@ -22,10 +22,9 @@ REST API
 JSON
 OpenWeather API
 
-📁 Project Structure
-
+**📁** Project Structure**
+**
 weather-forecast-app/
-
 ├── app.py
 ├── requirements.txt
 ├── .env
@@ -35,8 +34,8 @@ weather-forecast-app/
 └── static/
     └── style.css
 
-
-⚙️ Installation
+**
+⚙️ Installation**
 Clone the repository:
 bash
 git clone https://github.com/YOUR_USERNAME/weather-forecast-app.git
@@ -58,16 +57,15 @@ bash
 python app.py
 
 Open your browser:
-text
-http://127.0.0.1:5000/
+http://localhost:5000/
 
-🔑 API Configuration
-
+**🔑 API Configuration
+**
 Get your API key from OpenWeather.
 
 Never upload your .env file or expose your API key publicly.
 
-👨‍💻 Author
+**👨‍💻 Author**
 
 Your Name
 
