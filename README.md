@@ -1,7 +1,7 @@
 🌤 Weather Forecast Application
-```
-A modern, responsive weather forecasting web application built using Python and Flask. It provides real-time weather information, city autocomplete suggestions, and a five-day weather forecast through the OpenWeather API.
 
+A modern, responsive weather forecasting web application built using Python and Flask. It provides real-time weather information, city autocomplete suggestions, and a five-day weather forecast through the OpenWeather API.
+```
 🚀 Features
 Real-time weather information
 City search with autocomplete suggestions
@@ -27,19 +27,12 @@ OpenWeather API
 weather-forecast-app/
 
 ├── app.py
-
 ├── requirements.txt
-
 ├── .env
-
 ├── .gitignore
-
 ├── templates/
-
 │   └── index.html
-
 └── static/
-
     └── style.css
 
 
